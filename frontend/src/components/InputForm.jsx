@@ -1,19 +1,41 @@
 import React, { useEffect, useState } from "react";
-import data from "../data";
+import { Pencil, Trash2 } from "lucide-react";
 
 const InputForm = () => {
   const [input, setInput] = useState("");
   const [List, setList] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
-    console.log(List);
+    // console.log(List);
   }, [List]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setList((prevList) => [...prevList, input]);
-    setInput("");
+    if (editMode) {
+      setList((prevList) =>
+        prevList.map((item, i) => (i == editIndex ? input : item))
+      );
+      setEditIndex(null);
+      setEditMode(false);
+      setInput("");
+    } else {
+      setList((prevList) => [...prevList, input]);
+      setInput("");
+    }
   };
+
+  const updateTask = (index) => {
+    setEditMode(true);
+    setEditIndex(index);
+    setInput(List[index]);
+  };
+
+  const deleteTask = (index) => {
+    setList((prevList) => prevList.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="w-full h-full flex flex-col justify-start items-center">
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -31,7 +53,7 @@ const InputForm = () => {
             type="submit"
             className="px-2 py-2 rounded-lg  text-brown bg-breadWhite active:scale-125 duration-150"
           >
-            Submit
+            {editMode ? "Update" : "Submit"}
           </button>
         </div>
       </form>
@@ -43,7 +65,23 @@ const InputForm = () => {
               className="list-none flex flex-col gap-5 text-xl font-semibold items-center justify-center w-full py-2 px-2"
             >
               <li className="w-11/12 bg-breadWhite text-slate-600  px-3 py-2 rounded-lg overflow-hidden">
-                {items}
+                <span className="flex justify-between items-center">
+                  {items}
+                  <span className="flex justify-between items-center gap-4">
+                    <button
+                      className="active:scale-125 duration-150"
+                      onClick={() => updateTask(index)}
+                    >
+                      <Pencil />
+                    </button>
+                    <button
+                      className="active:scale-125 duration-150"
+                      onClick={() => deleteTask(index)}
+                    >
+                      <Trash2 />
+                    </button>
+                  </span>
+                </span>
               </li>
             </ul>
           ))
