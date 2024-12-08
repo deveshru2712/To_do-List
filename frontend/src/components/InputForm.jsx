@@ -15,7 +15,7 @@ const InputForm = () => {
     setInput("");
   };
   return (
-    <div>
+    <div className="w-full h-full flex flex-col justify-start items-center">
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="flex justify-between items-center px-2 py-2 text-xl font-semibold gap-4">
           <input
@@ -35,15 +35,15 @@ const InputForm = () => {
           </button>
         </div>
       </form>
-      <div className="w-full flex flex-col justify-center items-center">
-        {data && data.length > 0 ? (
-          data.map((items) => (
+      <div className="w-full flex flex-col justify-center items-center overflow-y-scroll h-[400px] no-scrollbar">
+        {List && List.length > 0 ? (
+          List.map((items, index) => (
             <ul
-              key={items.id}
+              key={index}
               className="list-none flex flex-col gap-5 text-xl font-semibold items-center justify-center w-full py-2 px-2"
             >
               <li className="w-11/12 bg-breadWhite text-slate-600  px-3 py-2 rounded-lg overflow-hidden">
-                {items.title}
+                {items}
               </li>
             </ul>
           ))

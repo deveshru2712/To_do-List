@@ -1,6 +1,6 @@
 import React from "react";
 import InputForm from "./components/InputForm";
-import List from "./components/List";
+
 const App = () => {
   return (
     <div className="bg-[url('./assets/background.jpg')] bg-cover bg-center h-screen flex justify-center items-center ">
